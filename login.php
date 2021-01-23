@@ -64,6 +64,17 @@ $kodealt =$huruf.sprintf("%02s",$urut);
 
 
 if (isset($_POST["register"])) {
+  // cek apakah website aktif atau menerima perekrutan ? 
+  // cek kode aktif = 1, tidak aktif =2 
+$cek = mysqli_query($koneksi, "SELECT status_web FROM web_set WHERE status_web=2");
+if (mysqli_num_rows($cek)>0) {
+  echo "<script>
+      alert('TK Al-Irsyad Sedang Tidak Menerima Perekturan Guru, Anda Tidak Dapat Mendaftar Akun!');
+      document.location.href = 'login.php';
+        </script>";
+// kalau status nya 1 / aktif/sedang menerima perekturtan
+// bisa daftar
+      }else{
 //kalau tombol register diklik  
   if(register($_POST) > 0 ) {
     //jalankan fungsi registrasi, kalau fungsinya berhasil
@@ -74,6 +85,7 @@ if (isset($_POST["register"])) {
   }else{
     echo mysqli_error($koneksi);
   } 
+}
 }
 
 
