@@ -125,7 +125,6 @@ $cek=count(query("SELECT * FRom nilai_alt where id_alternatif=23"));
       <?php  endif; ?>
 <form action="" method="post">
   <div class="container">
-
     <!-- Outer Row -->
     <div class="row justify-content-center">
 
@@ -199,6 +198,11 @@ $cek=count(query("SELECT * FRom nilai_alt where id_alternatif=23"));
 
                             <div class="form-group">
                               <input type="hidden" class="form-control mt-1" id="kode" name="kode" value="<?=$kodealt?>" readonly required>
+                            </div>
+                            
+                            <div class="form-group">
+                              <label for="nama" class="col-form-label">Nama Lengkap :</label>
+                              <input type="text" class="form-control mt-1" id="nama" name="nama" autocomplete="off" required>
                             </div>
 
                             <div class="form-group">
