@@ -1,0 +1,32 @@
+body{
+	font-size: 12px;
+}
+table {
+	width: 100%;
+}
+td {
+	text-align: center;
+
+}
+h1 {
+	text-align: center;
+	/*margin-bottom: 5px;*/
+	font-size: 45px;
+}
+
+h2 {
+	text-align: center;
+
+}
+img {
+	
+	width: 150px;
+	/*margin-bottom: 50px;*/
+}
+hr{
+	margin-top: -5px;
+}
+h2{
+	font-size: 20px;
+}
+.
