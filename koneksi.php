@@ -65,12 +65,35 @@ function tambahuser ($data) {
 
 function register ($data) {
 	global $koneksi;
+	$nik = stripcslashes($data["nik"]);
 	$kode = stripcslashes($data["kode"]);
 	$nama = strtolower(stripcslashes($data["nama"]));
 	$username = strtolower(stripcslashes($data["username"]));
 	$password = mysqli_real_escape_string($koneksi, $data["password"]);
 	$password2 = mysqli_real_escape_string($koneksi, $data["password2"]);
 	$pjgpass=strlen($password);
+	$pjgnik=strlen($nik);
+	// cek apakah nik angka semua bukan?
+	if (!filter_var($nik, FILTER_VALIDATE_INT) === TRUE) {
+	// kalo bukan
+		echo "<script>
+		alert('NIK bukan Angka! Gagal Melakukan Pedanftaran!')
+		</script>"; 
+	//   kalau iya angka
+	}else{
+		// cek panjang nik 16digit ?
+	if ($pjgnik < 16 OR $pjgnik > 16) {
+		echo "<script>
+		alert('Cek Kembali NIK, NIK tidak bisa Lebih Dari atau Kurang Dari 16')
+		</script>"; 
+	}else{
+	// cek apakah nik sudah ada di database alternatif / sudah pernah daftar ?
+	$ceknik = mysqli_query($koneksi, "SELECT nik FROM alternatif WHERE nik='$nik'");
+	if (mysqli_num_rows($ceknik)>0) {
+		echo "<script>
+			alert('NIK Sudah Terdaftar, Gagal Mendaftar Akun!');
+			</script>";
+	}else{
 			$alternatif = mysqli_query($koneksi,"SELECT username FROM alternatif WHERE username='$username'");
 			if (mysqli_fetch_assoc($alternatif)) {
 				echo "<script>
@@ -79,7 +102,6 @@ function register ($data) {
 			
 		return false;
 	}
-
 	if($pjgpass <3) {
 		echo "<script>
 			alert('password harus lebih panjang, silahkan ulang kembali !')
@@ -87,7 +109,6 @@ function register ($data) {
 
 		return false;
 	} 
-
 	if($password !== $password2) {
 		echo "<script>
 			alert('password tidak sesuai')
@@ -95,14 +116,15 @@ function register ($data) {
 
 		return false;
 	}
-
 		//enkripsi password
 	$password = password_hash($password, PASSWORD_DEFAULT);
 		// var_dump($password); die;
 
-	mysqli_query($koneksi,"INSERT INTO alternatif VALUES('','$kode','$nama','','','','','','','','','$username','$password','')");
+	mysqli_query($koneksi,"INSERT INTO alternatif VALUES('','$kode','$nik','$nama','','','','','','','','','$username','$password','')");
 	return mysqli_affected_rows($koneksi);
-
+	}
+}
+}
 }
 
 

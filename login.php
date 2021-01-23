@@ -199,10 +199,10 @@ $cek=count(query("SELECT * FRom nilai_alt where id_alternatif=23"));
                             <div class="form-group">
                               <input type="hidden" class="form-control mt-1" id="kode" name="kode" value="<?=$kodealt?>" readonly required>
                             </div>
-                            
+
                             <div class="form-group">
-                              <label for="nama" class="col-form-label">Nama Lengkap :</label>
-                              <input type="text" class="form-control mt-1" id="nama" name="nama" autocomplete="off" required>
+                              <label for="nama" class="col-form-label">NIK</label>
+                              <input type="text" class="form-control mt-1" id="nik" name="nik" autocomplete="off" required minlength="16" maxLength="16">
                             </div>
 
                             <div class="form-group">
