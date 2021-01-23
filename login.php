@@ -9,7 +9,6 @@ require 'koneksi.php';
 if (isset($_POST["login"])) {
     $username = $_POST ["username"];
     $password = $_POST ["password"];
-
     $result = mysqli_query($koneksi, "SELECT * FROM user WHERE username = '$username'");
     $result2= mysqli_query($koneksi, "SELECT * FROM alternatif WHERE username = '$username'");
     //cek username
@@ -17,7 +16,7 @@ if (isset($_POST["login"])) {
     	//cek password
     	$row = mysqli_fetch_assoc($result);
         if (password_verify($password, $row["password"])){
-          if ($row['level']== admin){
+          if ($row['level']== 'admin'){
 //set session
     		  $_SESSION["login_adm"] = true;
           $_SESSION["username"] = $row['username'];
@@ -25,7 +24,7 @@ if (isset($_POST["login"])) {
           $_SESSION['id_admin']=$row['id_admin'];
     		  header("location: index.php");
     		exit; 	
-          }elseif ($row['level']== operator) {
+          }elseif ($row['level']== 'operator') {
             $_SESSION["operator"] = true;
             $_SESSION["username"]=$row["username"];
             $_SESSION["level"] = $row['level'];
@@ -35,9 +34,6 @@ if (isset($_POST["login"])) {
           else{
           $error = true;
           }
-
-
-
       }
     }elseif (mysqli_num_rows($result2)===1) {
       $row2 = mysqli_fetch_assoc($result2);
@@ -87,7 +83,6 @@ if (mysqli_num_rows($cek)>0) {
   } 
 }
 }
-
 
 $cek=count(query("SELECT * FRom nilai_alt where id_alternatif=23"));
 // echo "jumlah ".$cek;

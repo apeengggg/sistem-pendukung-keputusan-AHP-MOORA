@@ -16,7 +16,7 @@ include('template/sidebar.php');
     <div class="card-body" style="background-color: #ffffff">
       <h1 class="h3 mb-4 text-judul"> Selamat Datang, <?=$_SESSION['username'] ?></h1>
         <div class="row">
-          <div class="col-xl-2 col-md-5 mb-4">
+          <!-- <div class="col-xl-2 col-md-5 mb-4">
             <div class="card border border-info py-2">
               <div class="card-body">
                 <div class="row no-gutters align-items-center">
@@ -37,10 +37,10 @@ include('template/sidebar.php');
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           
 
-      <div class="col-xl-2 col-md-6 mb-4">
+      <!-- <div class="col-xl-2 col-md-6 mb-4">
         <div class="card border border-danger py-2">
           <div class="card-body">
             <div class="row no-gutters align-items-center">
@@ -84,7 +84,7 @@ include('template/sidebar.php');
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
       <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border border-warning py-2">
@@ -108,7 +108,31 @@ include('template/sidebar.php');
                 </div>
               </div>
             </div>
-<!--       <div class="col-xl-2 col-md-6 mb-4">
+
+            <!-- <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border border-primary py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Menunggu Pemberkasan</div>
+                  <?php $alternatif = query("SELECT * FROM alternatif WHERE status_alt=0");
+                  $jml_alternatif = count($alternatif); ?>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800"><?=$jml_alternatif?> alternatif</div>
+                    <div class="progress progress-sm mr-2">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 5%" aria-valuenow="50" aria-valuemin="50" aria-valuemax="100"></div>
+                  </div>  
+              </div>
+            <div class="col-auto">
+                      <a href="data_alternatif.php">
+                        <i class="fas fa-user fa-2x text-gray-300 "></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+
+      <!-- <div class="col-xl-2 col-md-6 mb-4">
         <div class="card border border-success py-2">
           <div class="card-body">
             <div class="row no-gutters align-items-center">
@@ -129,10 +153,10 @@ include('template/sidebar.php');
                   </div>
                 </div>
               </div>
-            </div> -->
+            </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
                   <!-- Area Chart -->
           <div class="row">

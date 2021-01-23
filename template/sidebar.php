@@ -66,6 +66,16 @@
       </div>
 
 <!-- Nav Item alternatif-->
+      <li <?php if($page == "Web Setting"){
+        echo "class='nav-item active'";
+      } else {
+        echo "class='nav-item'";
+      } ?> >
+        <a class="nav-link" href="web_setting.php">
+          <i class="fas fa-cog"></i>
+          <span>Web Setting</span></a>
+      </li>
+
       <li <?php if($page == "alternatif"){
         echo "class='nav-item active'";
       } else {
@@ -139,7 +149,7 @@
 
       <?php else: ?>
 
-              <!-- Nav Item alternatif-->
+      <!-- Nav Item alternatif-->
       <li <?php if($page == "alternatif"){
         echo "class='nav-item active'";
       } else {

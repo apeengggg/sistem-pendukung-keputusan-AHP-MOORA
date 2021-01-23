@@ -1,0 +1,29 @@
+[33mcommit 7df7c24e3b5fb5967580de21c8072f9b9bc1c803[m[33m ([m[1;36mHEAD -> [m[1;32mapeng[m[33m)[m
+Author: apeengggg <mirfanmanaf0804@gmail.com>
+Date:   Sat Jan 23 13:09:44 2021 +0700
+
+    membuat fungsi dan menambahkan table nik untuk pengkondisian jika nik sudah terdaftar maka tidak bisa mendaftar akun
+
+[33mcommit 4375558f2b195141acd1e43611c047bf32855dd1[m
+Author: apeengggg <mirfanmanaf0804@gmail.com>
+Date:   Sat Jan 23 12:53:39 2021 +0700
+
+    mengekspor database karena menambahkan nik pada tabel alternatif untuk menjadi unique code saat pendaftaran alternatif
+
+[33mcommit 3d6e96cfde2fefc488f8e9971c8afc7b06364cd9[m
+Author: apeengggg <mirfanmanaf0804@gmail.com>
+Date:   Sat Jan 23 12:46:57 2021 +0700
+
+    membuat fungsi untuk jika web_set tidak aktif(2) alternatif tidak bisa mendaftar akun pada sistem
+
+[33mcommit adbb7b906a3ae06f3b4dd700a206ed14b73569b7[m
+Author: apeengggg <mirfanmanaf0804@gmail.com>
+Date:   Sat Jan 23 12:40:16 2021 +0700
+
+    menambahkan tabel web_set untuk pengaturan website aktif/tidak
+
+[33mcommit 86e6dc762d72b90e039c7444e32d06c65a3ac5ce[m[33m ([m[1;32mmaster[m[33m)[m
+Author: apeengggg <mirfanmanaf0804@gmail.com>
+Date:   Sat Jan 23 12:28:45 2021 +0700
+
+    initial commit, copy dri aay
