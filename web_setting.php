@@ -54,10 +54,10 @@ if (isset($_POST["update"])) {
             <h5>Pengaturan Saat Ini: <b> <?= $hasil ?> </b> </h5>
             <form action="" method="POST">
 
-            <input type="radio" id="aktif" name="aktif" value="1">
+            <input type="radio" id="aktif" name="aktif" value="1" required>
             <label for="aktif">Aktif</label><br>
 
-            <input type="radio" id="nonaktif" name="aktif" value="2">
+            <input type="radio" id="nonaktif" name="aktif" value="2" required>
             <label for="nonaktif">Non Aktif</label><br>
 
             <button type="submit" name="update" id="update" class="btn btn-primary">
