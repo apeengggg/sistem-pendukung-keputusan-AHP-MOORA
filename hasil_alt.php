@@ -29,8 +29,13 @@ include('template/sidebaralt.php');
       					</thead>
       						<?php
       						$sql="SELECT alternatif.kode, alternatif.nama, hasil.nilai FROM alternatif JOIN hasil USING (id_alternatif)";
-      						$result = mysqli_query($koneksi, $sql);
-                        $i=1;
+							  $result = mysqli_query($koneksi, $sql);
+							  if (mysqli_num_rows($result)==0) {
+							?>
+							<td class="text-center" colspan="3">Data Anda Belum Diseleksi</td>
+							<?php 
+							  }else{
+                        	$i=1;
       							while ($row= mysqli_fetch_assoc($result)) {
 
       						?>
@@ -42,7 +47,8 @@ include('template/sidebaralt.php');
       						</tr>
       				<?php
                         $i++;
-                     }
+					 }
+					}
                      ?>
       				</table>
       			</div>

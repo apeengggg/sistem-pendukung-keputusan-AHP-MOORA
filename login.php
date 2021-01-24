@@ -10,7 +10,7 @@ if (isset($_POST["login"])) {
     $username = $_POST ["username"];
     $password = $_POST ["password"];
     $result = mysqli_query($koneksi, "SELECT * FROM user WHERE username = '$username'");
-    $result2= mysqli_query($koneksi, "SELECT * FROM alternatif WHERE username = '$username'");
+    $result2= mysqli_query($koneksi, "SELECT * FROM alternatif WHERE username = '$username' AND (status='1' OR status='0')");
     //cek username
     if( mysqli_num_rows($result)===1){
     	//cek password
@@ -43,6 +43,7 @@ if (isset($_POST["login"])) {
             $_SESSION["nama"]=$row2["nama"];
             $_SESSION["username"]=$row2['username'];
             $_SESSION["id_alternatif"] = $row2['id_alternatif'];
+            $_SESSION["status"] = $row2['status'];
             
             header("location: datadiri_alternatif.php");
       }$error = true;

@@ -7,6 +7,14 @@ if (!isset($_SESSION["login_alt"])) {
 
 $id = $_SESSION["id_alternatif"];
 $nama =$_SESSION["nama"];
+$status = $_SESSION["status"];
+  if ($status == 0) {
+    $stat = "Menunggu Verifikasi, Silahkan Datang Ke Sekolah Untuk Memverifikasi Data Dengan Membawa KTP";
+  }elseif ($status == 1) {
+    $stat = "Berhasil Diverifikasi";
+  }else{
+    $stat = "Akun Anda DiBlokir!";
+  }
 
 $page="datadiri";
 require'koneksi.php';
@@ -94,6 +102,7 @@ echo '
         <div class="card shadow mb-4">
           <div class="card-body">
             <form action="" method="post">
+              <b><h5>Status Data Anda : <b><?= $stat?></b></h5>
               <div class="input-group col-2 mb-3 float-right">
                 <button type="button" class="btn btn-secondary float-right " data-toggle="modal" data-target="#modaltambahalt"><i class="fas fa-plus-square"></i> Isi Data Diri</button>
             </div>
@@ -125,7 +134,7 @@ echo '
               <td><?= $row["pendidikan_terakhir"]; ?></td>
               <td><?= $row["no_HP"]; ?></td>
               <td><?= $row["email"]; ?></td>
-              <td><a href="assets1/berkas/<?= $row["Berkas"]; ?>">Lihat Berkas</a></td>
+              <td><a href="assets1/berkas/<?= $row["Berkas"]; ?>" taget="_blank">Lihat Berkas</a></td>
 <!--              <td>
                 <form method="POST">
                   <button type="button" id="tambah" name="tambah" class="btn btn-secondary" data-toggle="modal" data-target="#modalubah"><i class="fas fa-edit"></i>Ubah</button>
