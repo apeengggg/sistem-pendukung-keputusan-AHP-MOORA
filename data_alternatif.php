@@ -12,7 +12,7 @@ require 'koneksi.php';
 include ('template/topbar.php');
 include ('template/sidebar.php');
 
-  $cek=query("SELECT * FROM alternatif order by id_alternatif DESC LIMIT 0,1")[0];
+  $cek=query("SELECT * FROM alternatif WHERE status='1' ORDER BY id_alternatif DESC LIMIT 0,1")[0];
   $id=$cek['id_alternatif'];
   $cekNil=query("SELECT*FROM nilai_alt where id_alternatif=$id");
   $nt=count($cekNil);
