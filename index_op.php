@@ -87,21 +87,67 @@ include('template/sidebar.php');
             </div> -->
 
       <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border border-warning py-2">
+        <div class="card border border-success py-2">
           <div class="card-body">
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Alternatif</div>
-                  <?php $alternatif = query("SELECT * FROM alternatif");
+                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Alternatif Siap Untuk Diseleksi</div>
+                  <?php $alternatif = query("SELECT * FROM alternatif WHERE status='1'");
                   $jml_alternatif = count($alternatif); ?>
                   <div class="h5 mb-0 font-weight-bold text-gray-800"><?=$jml_alternatif?> alternatif</div>
-                    <div class="progress progress-sm mr-2">
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: 5%" aria-valuenow="50" aria-valuemin="50" aria-valuemax="100"></div>
-                  </div>  
+                    <!-- <div class="progress progress-sm mr-2">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 5%" aria-valuenow="50" aria-valuemin="50" aria-valuemax="100"></div>
+                  </div>   -->
               </div>
             <div class="col-auto">
                       <a href="data_alternatif.php">
                         <i class="fas fa-user fa-2x text-gray-300 "></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border border-danger py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Alternatif Belum Diverifikasi</div>
+                  <?php $alternatif = query("SELECT * FROM alternatif WHERE status='0'");
+                  $jml_alternatif = count($alternatif); ?>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800"><?=$jml_alternatif?> alternatif</div>
+                    <!-- <div class="progress progress-sm mr-2">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 5%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>   -->
+              </div>
+            <div class="col-auto">
+                      <a href="verifikasi_alternatif.php">
+                        <i class="fas fa-signal fa-2x text-gray-300 "></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border border-dark py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Alternatif Diblokir</div>
+                  <?php $alternatif = query("SELECT * FROM alternatif WHERE status='2'");
+                  $jml_alternatif = count($alternatif); ?>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800"><?=$jml_alternatif?> alternatif</div>
+                    <!-- <div class="progress progress-sm mr-2">
+                        <div class="progress-bar bg-dark" role="progressbar" style="width: 5%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>   -->
+              </div>
+            <div class="col-auto">
+                      <a href="blokir_alternatif.php">
+                        <i class="fas fa-ban fa-2x text-gray-300 "></i>
                       </a>
                     </div>
                   </div>
