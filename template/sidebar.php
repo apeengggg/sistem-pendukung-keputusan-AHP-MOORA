@@ -180,6 +180,16 @@
           <span>Alternatif Diblokir</span></a>
       </li>
 
+      <li <?php if($page == "blokir"){
+        echo "class='nav-item active'";
+      } else {
+        echo "class='nav-item'";
+      } ?> >
+        <a class="nav-link" href="logout.php">
+          <i class="fas fa-gear"></i>
+          <span>Logout</span></a>
+      </li>
+
       <!-- Nav Item perhitungan-->
       <li <?php if($page == "hasil"){
         echo "class='nav-item active disabled' ";
