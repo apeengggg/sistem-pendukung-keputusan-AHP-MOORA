@@ -150,6 +150,16 @@
       <?php else: ?>
 
       <!-- Nav Item alternatif-->
+      <li <?php if($page == "verifikasi"){
+        echo "class='nav-item active'";
+      } else {
+        echo "class='nav-item'";
+      } ?> >
+        <a class="nav-link" href="verifikasi_alternatif.php">
+          <i class="fas fa-signal"></i>
+          <span>Verifikasi Alternatif</span></a>
+      </li>
+
       <li <?php if($page == "alternatif"){
         echo "class='nav-item active'";
       } else {
@@ -158,6 +168,16 @@
         <a class="nav-link" href="data_alternatif.php">
           <i class="fas fa-user-friends"></i>
           <span>Alternatif</span></a>
+      </li>
+
+      <li <?php if($page == "blokir"){
+        echo "class='nav-item active'";
+      } else {
+        echo "class='nav-item'";
+      } ?> >
+        <a class="nav-link" href="blokir_alternatif.php">
+          <i class="fas fa-ban"></i>
+          <span>Alternatif Diblokir</span></a>
       </li>
 
       <!-- Nav Item perhitungan-->

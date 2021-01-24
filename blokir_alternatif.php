@@ -17,13 +17,13 @@ include ('template/sidebar.php');
   $cekNil=query("SELECT*FROM nilai_alt where id_alternatif=$id");
   $nt=count($cekNil);
 
-$alternatif = query ("SELECT * FROM alternatif WHERE status='0' ORDER BY id_alternatif ASC");
+$alternatif = query ("SELECT * FROM alternatif WHERE status='2' ORDER BY id_alternatif ASC");
 // $kriteria = query("SELECT * FROM kriteria");
 // $subkriteria = query("SELECT * FROM subkriteria");
 // $id= $_SESSION["id_alternatif"];
 // tombol cari ditekan
 if(isset($_POST["cari"])) {
-	$alternatif = cari_menunggu($_POST["keyword"]);
+	$alternatif = cari_blokir($_POST["keyword"]);
 }
 
 if (isset($_POST["hapus"])) {
@@ -55,11 +55,11 @@ if (isset($_POST['ubah'])) {
     $query = mysqli_query($koneksi, "UPDATE alternatif SET status='$status' WHERE id_alternatif='$id'");
     if ($query) {
         echo "<script>
-        alert('Status Alternatif Berhasil DiUbah')
+        alert('Blokir Alternatif Berhasil Dibuka, Pergi Ke Halaman Verifikasi Untuk Diverifikasi Ulang')
         </script>";
     }else{
         echo "<script>
-        alert('Status Alternatif Gagal DiUbah')
+        alert('Blokir Alternatif Gagal Dibuka')
         </script>";
     }
 }
@@ -69,20 +69,22 @@ if (isset($_POST['ubahsemua'])) {
     $pilihan = $_POST['pilih'];
     $status = $_POST['ubahstatus'];
     $jumlah_dipilih = count($pilihan);
-    
+    if ($jumlah_dipilih == 0) {
+        header("location:blokir_alternatif.php");
+    }else{
     for($x=0;$x<$jumlah_dipilih;$x++){
        $query = mysqli_query($koneksi, "UPDATE alternatif SET status=$status WHERE id_alternatif='$pilihan[$x]'");
     }
     if ($query) {
         echo "<script>
-        alert('Status Alternatif Berhasil DiUbah')
+        alert('Blokir Alternatif Berhasil Dibuka, Pergi Ke Halaman Verifikasi Untuk Diverifikasi Ulang')
         </script>";
     }else{
         echo "<script>
-        alert('Status Alternatif Gagal DiUbah')
+        alert('Blokir Alternatif Gagal Dibuka')
         </script>";
-    }
-    
+        }
+    }   
 }
 
 
@@ -90,7 +92,7 @@ if (isset($_POST['ubahsemua'])) {
 <!DOCTYPE html>
 	<html>
 		<div class="container-fluid">
-  			<h1 class="m-0 font-weight-bold text-dark">Verifikasi Alternatif</h1> <br>
+  			<h1 class="m-0 font-weight-bold text-dark">Blokir Alternatif</h1> <br>
     			<div class="card shadow mb-4">
       			<div class="card-body"> 
   						<form action="" method="post">
@@ -147,10 +149,9 @@ if (isset($_POST['ubahsemua'])) {
 		    </table>
             <select name="ubahstatus" id="ubahstatus"required>
                 <option value="">Pilih Aksi...</option>
-                <option value="1">Aktifkan Semua</option>
-                <option value="2">Blokir Semua</option>
+                <option value="0">Verifikasi Ulang / Buka Blokir</option>
             </select>
-            <button type="submit" class="btn btn-primary" name="ubahsemua" id="ubahsemua">Ubah Status Verifikasi</button>
+            <button type="submit" class="btn btn-primary" name="ubahsemua" id="ubahsemua">Buka Blokir Yang Terpilih</button>
             </form>
 			</div>
 				</div>
@@ -167,7 +168,7 @@ if (isset($_POST['ubahsemua'])) {
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Verifikasi Alternatif</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Blokir Alternatif</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" >
@@ -176,8 +177,7 @@ if (isset($_POST['ubahsemua'])) {
           <input type="hidden" name="id_alt" id="id_alt" readonly>
           <select name="status" id="status" class="form-control" required>
                 <option value="">Pilih Status Verifikasi...</option>
-                <option value="1">Aktifkan</option>
-                <option value="2">Blokir</option>
+                <option value="0">Verifikasi Ulang / Buka Blokir</option>
           </select>
       </div>
       <div class="modal-footer">

@@ -560,9 +560,35 @@ function cari5 ($keyword){
 	$query = "SELECT * FROM alternatif 
 				WHERE 
 				nama LIKE '%$keyword%' OR
-				alamat LIKE '%keyword%' OR
+				alamat LIKE '%$keyword%' OR
 				tgl_lahir LIKE '%$keyword%' OR
 				pendidikan_terakhir LIKE '%keyword'
+				";
+	return query($query);
+	//manggil func yg udh diubat, didalam func baru			
+}
+
+function cari_menunggu ($keyword){
+	$query = "SELECT * FROM alternatif 
+				WHERE status ='0'
+				AND 
+				(nama LIKE '%$keyword%' OR
+				alamat LIKE '%$keyword%' OR
+				tgl_lahir LIKE '%$keyword%' OR
+				pendidikan_terakhir LIKE '%$keyword')
+				";
+	return query($query);
+	//manggil func yg udh diubat, didalam func baru			
+}
+
+function cari_blokir ($keyword){
+	$query = "SELECT * FROM alternatif 
+				WHERE status ='2'
+				AND 
+				(nama LIKE '%$keyword%' OR
+				alamat LIKE '%$keyword%' OR
+				tgl_lahir LIKE '%$keyword%' OR
+				pendidikan_terakhir LIKE '%$keyword')
 				";
 	return query($query);
 	//manggil func yg udh diubat, didalam func baru			
