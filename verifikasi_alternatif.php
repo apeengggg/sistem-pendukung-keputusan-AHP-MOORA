@@ -188,6 +188,8 @@ if (isset($_POST['ubahsemua'])) {
     </div>
   </div>
 </div>
+
+
 <?php include('template/footer.php'); ?>
 </div>
 <script>

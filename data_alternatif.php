@@ -45,6 +45,25 @@ if(hapusalternatif ($_POST) > 0) {
 }
 }
 
+// fungsi ubah status verifikasi
+if (isset($_POST['ubah'])) {
+  // var_dump($_POST); die;
+  $id = $_POST['id_alt'];
+  $status = $_POST['status'];
+
+  // ubah status verifikasi
+  $query = mysqli_query($koneksi, "UPDATE alternatif SET status='$status' WHERE id_alternatif='$id'");
+  if ($query) {
+      echo "<script>
+      alert('Status Alternatif Berhasil DiUbah')
+      </script>";
+  }else{
+      echo "<script>
+      alert('Status Alternatif Gagal DiUbah')
+      </script>";
+  }
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -103,10 +122,15 @@ if(hapusalternatif ($_POST) > 0) {
 </td>
       <td class="text-center">
         <?php if ($_SESSION['level']=='operator') : ?>
+          <button type="submit" id="verifikasi" class="btn-xs btn-dark" data-toggle="modal"
+                    data-target="#modal-xl" 
+                    data-id="<?= $row['id_alternatif']; ?>">
+                    <i class="fas fa-info-circle"></i>
+                </button>
         <form method="POST">
           <input type="hidden" name="id_alternatif" value="<?=$row['id_alternatif'];?>">
 				  <!-- <a class="btn btn-secondary" href="hapus_alternatif.php?id_alternatif=<?= $row["id_alternatif"]; ?>" onclick="return confirm('yakin?');"><i class="far fa-trash-alt"></i> hapus</a> -->
-          <button type="submit" name="hapus" class="btn btn-secondary" onclick="return confirm('yakin hapus <?=$row['nama']?>?');"><i class="far fa-trash-alt"></i> hapus</button>
+          <button type="submit" name="hapus" class="btn btn-secondary" onclick="return confirm('yakin hapus <?=$row['nama']?>?');"><i class="far fa-trash-alt"></i></button>
             <?php $id=$row['id_alternatif']; $ceknilai=query("SELECT*FROM nilai_alt where id_alternatif=$id"); if (count($ceknilai)>0) :?>
               <a href="nilai_alt.php?id_alternatif=<?= $row["id_alternatif"]; ?>" type="button" class="btn btn-info "><i class="fas fa-plus-square"></i> Edit Nilai</a>
         
@@ -117,7 +141,7 @@ if(hapusalternatif ($_POST) > 0) {
                 <?php else: ?>
              <form method="POST">
                 <input type="hidden" name="id_alternatif" value="<?=$row['id_alternatif'];?>">
-                  <button type="submit" name="hapus" class="btn btn-secondary" onclick="return confirm('yakin hapus <?=$row['nama']?>?');"><i class="far fa-trash-alt"></i> hapus</button>
+                  <button type="submit" name="hapus" class="btn btn-secondary" onclick="return confirm('yakin hapus <?=$row['nama']?>?');"><i class="far fa-trash-alt"></i></button>
                 </form>
                 <?php endif; ?>
 			       </td>
@@ -172,9 +196,42 @@ if(hapusalternatif ($_POST) > 0) {
   </div>
 </div>
 
+!-- Modal -->
+<div class="modal fade" id="modal-xl" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Verifikasi Alternatif</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" >
+        <form method="POST">
+          <label>Status Verifikasi</label>
+          <input type="text" name="id_alt" id="id_alt" readonly>
+          <select name="status" id="status" class="form-control" required>
+                <option value="">Pilih Status Verifikasi...</option>
+                <option value="2">Blokir</option>
+          </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary toastrDefaultSuccess" name="ubah" id="ubah">Ubah Status Verifikasi</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 								<?php include('template/footer.php'); ?>
 									</div>
+
+<script>
+// detail data
+$(document).on("click", "#verifikasi", function () {
+    let id = $(this).data('id');
+    $("#modal-xl #id_alt").val(id);
+  });
+</script>
 
 
 
