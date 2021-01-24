@@ -17,7 +17,7 @@ include ('template/sidebar.php');
   $cekNil=query("SELECT*FROM nilai_alt where id_alternatif=$id");
   $nt=count($cekNil);
 
-$alternatif = query ("SELECT * FROM alternatif ORDER BY id_alternatif ASC");
+$alternatif = query ("SELECT * FROM alternatif WHERE status='1' ORDER BY id_alternatif ASC");
 // $kriteria = query("SELECT * FROM kriteria");
 // $subkriteria = query("SELECT * FROM subkriteria");
 // $id= $_SESSION["id_alternatif"];
@@ -93,7 +93,7 @@ if(hapusalternatif ($_POST) > 0) {
 			<td class="text-center"><?= $row["pendidikan_terakhir"]; ?></td>
       <td class="text-center"><?= $row["email"]; ?></td>
       <td class="text-center"><?= $row["no_HP"]; ?></td>
-			<td class="text-center"><a href="assets1/berkas/<?= $row["Berkas"]; ?>">Lihat Berkas</a></td>
+			<td class="text-center"><a href="assets1/berkas/<?= $row["Berkas"]; ?>" target="_blank">Lihat Berkas</a></td>
 			<td class="text-center">
           <?php if ($nt>0):?>
         <a href="nilai_alternatif.php?id_alternatif=<?=$row['id_alternatif'] ?>">Lihat Nilai</a>

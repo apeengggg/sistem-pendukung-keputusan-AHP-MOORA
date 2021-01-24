@@ -17,7 +17,7 @@ require 'koneksi.php';
 // print_r($_POST);
 $batas=$_POST['jml'];
 $subkriteria = query("SELECT * FROM subkriteria");
-$alternatif = query("SELECT * FROM alternatif");
+$alternatif = query("SELECT * FROM alternatif WHERE status='1'");
 $kriteria=query("SELECT *FROM kriteria");
  ?>
 
@@ -57,23 +57,46 @@ $kriteria=query("SELECT *FROM kriteria");
 									<?php $idk=$key3['id_kriteria']; 
 										  $ceksub=query("SELECT*FROM subkriteria where id_kriteria=$idk");
 									if (count($ceksub)>0): ?>
-										<?php $ns=query("SELECT id_subkriteria FROM subkriteria where id_kriteria=$idk"); foreach ($ns as $key4) :?>
-										<?php $idsubb=$key4['id_subkriteria']; $nilaii=query("SELECT * FROM nilai_alt where id_alternatif=$idal and id_kriteria=$idk and id_subkriteria=$idsubb"); if (count($nilaii)>0) :?>
-										<?php $mt=query("SELECT * FROM nilai_alt where id_alternatif=$idal and id_kriteria=$idk and id_subkriteria=$idsubb")[0]; ?>
+										<?php $ns=query("SELECT id_subkriteria FROM subkriteria where id_kriteria=$idk"); 
+										
+										foreach ($ns as $key4) :?>
+										
+										<?php $idsubb=$key4['id_subkriteria']; 
+										
+										$nilaii=query("SELECT * FROM nilai_alt INNER JOIN alternatif ON nilai_alt.id_alternatif=alternatif.id_alternatif  
+														where nilai_alt.id_alternatif=$idal and id_kriteria=$idk and id_subkriteria=$idsubb"); 
+										
+										if (count($nilaii)>0) :?>
+										
+										<?php $mt=query("SELECT * FROM nilai_alt INNER JOIN alternatif ON nilai_alt.id_alternatif=alternatif.id_alternatif
+														where nilai_alt.id_alternatif=$idal and id_kriteria=$idk and id_subkriteria=$idsubb")[0]; ?>
+										
 											<td class="text-center"><?=$mt['nilai']; ?></td>
+										
 										<?php else: ?>
+										
 												<td class="text-center">---</td>
+										
 										<?php endif; ?>
 
 									<?php endforeach; ?>
 										
 										<?php else: ?>
-											<?php $nilaiii=query("SELECT * FROM nilai_alt where id_alternatif=$idal and id_kriteria=$idk");
-											 if (count($nilaiii)>0) :?>
-											<?php $qrw=query("SELECT * FROM nilai_alt where id_alternatif=$idal and id_kriteria=$idk")[0]; ?>
+
+											<?php $nilaiii=query("SELECT * FROM nilai_alt INNER JOIN alternatif ON nilai_alt.id_alternatif=alternatif.id_alternatif  
+																where nilai_alt.id_alternatif=$idal and id_kriteria=$idk");
+										
+										if (count($nilaiii)>0) :?>
+
+											<?php $qrw=query("SELECT * FROM nilai_alt INNER JOIN alternatif ON nilai_alt.id_alternatif=alternatif.id_alternatif  
+																where nilai_alt.id_alternatif=$idal and id_kriteria=$idk")[0]; ?>
+										
 											<td class="text-center"><?=$qrw['nilai'] ?></td>
+										
 											<?php else: ?>
+										
 											<td>---</td>
+										
 											<?php endif; ?>
 										
 										<?php endif; ?>
@@ -88,7 +111,7 @@ $kriteria=query("SELECT *FROM kriteria");
 
 		<?php $nilai_itung=query("SELECT alternatif.*,nilai_alt.*,kriteria.*
 								  FROM nilai_alt JOIN alternatif USING(id_alternatif)
-								  JOIN kriteria USING(id_kriteria)");
+								  JOIN kriteria USING(id_kriteria) WHERE status='1'");
 
 // print_r($nilai_itung);die;
 $nilai_simpan=[];
