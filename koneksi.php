@@ -17,6 +17,34 @@ function query ($query) {
 return $rows;
 }
 
+function status_online_admin($id){
+	global $koneksi;
+	$besok = date('Y-m-d', strtotime("+1 days", strtotime(date("Y-m-d"))));
+	$query="UPDATE user SET status_on=1 WHERE id_admin='$id'";
+	mysqli_query($koneksi,$query);
+
+}
+
+function status_online_alt($id){
+	global $koneksi;
+	$besok = date('Y-m-d', strtotime("+1 days", strtotime(date("Y-m-d"))));
+	$query="UPDATE alternatif SET status_on=1 WHERE id_alternatif='$id'";
+	mysqli_query($koneksi,$query);
+
+}
+
+function status_offline_admin($id){
+	global $koneksi;
+	$query="UPDATE user SET status_on=0 WHERE id_admin='$id'";
+	mysqli_query($koneksi,$query);
+}
+
+function status_offline_alt($id){
+	global $koneksi;
+	$query="UPDATE alternatif SET status_on=0 WHERE id_alternatif='$id'";
+	mysqli_query($koneksi,$query);
+}
+
 function tambahuser ($data) {
 	global $koneksi;
 
@@ -120,7 +148,7 @@ function register ($data) {
 	$password = password_hash($password, PASSWORD_DEFAULT);
 		// var_dump($password); die;
 
-	mysqli_query($koneksi,"INSERT INTO alternatif VALUES('','$kode','$nik','$nama','','','','','','','','','$username','$password','')");
+	mysqli_query($koneksi,"INSERT INTO alternatif (kode, nik, nama, username,password) VALUES('$kode','$nik','$nama','$username','$password')");
 	return mysqli_affected_rows($koneksi);
 	}
 }

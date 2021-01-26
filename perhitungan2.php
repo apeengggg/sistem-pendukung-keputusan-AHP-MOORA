@@ -51,7 +51,7 @@ $kriteria=query("SELECT *FROM kriteria");
 								<?php foreach ($alternatif as $key2) :?>
 									<tr>
 									<td class="text-center"><?= $i ?></td>
-									<td class="text-center"><?=$key2['kode'];  ?></td>
+									<td class="text-center"><?=$key2['nama'];  ?></td>
 									<?php $idal=$key2['id_alternatif']; 
 									foreach ($kriteria as $key3 ): ?>
 									<?php $idk=$key3['id_kriteria']; 
@@ -186,7 +186,7 @@ foreach ($nilai_simpan as $key1 => $value) {
 							<?php foreach ($alternatif as $key2) :?>
 									<tr>
 									<td class="text-center"><?= $i ?></td>
-									<td class="text-center"><?=$key2['kode'];  ?></td>
+									<td class="text-center"><?=$key2['nama'];  ?></td>
 									<?php $idal=$key2['id_alternatif']; 
 									foreach ($kriteria as $key3 ): ?>
 									<?php $idk=$key3['id_kriteria']; 
@@ -292,7 +292,7 @@ arsort($nilai_akhir);
 			<?php foreach ($alternatif as $key ) :?>
 				<tr>
 					<?php $id=$key['id_alternatif'] ?>
-					<td class="text-center"><?=$key['kode'] ?></td>
+					<td class="text-center"><?=$key['nama'] ?></td>
 					<?php foreach ($kriteria as $keyu) :?>
 						<?php $idk=$keyu['id_kriteria'] ?>
 						<?php $pecah=str_split($nilai_kali_bb[$id][$idk],8);?>
@@ -326,8 +326,8 @@ arsort($nilai_akhir);
 	<?php $i=1; ?>
 		<?php foreach ($nilai_akhir as $kunci => $val) : ?>
 	<tr>
-		<?php $query=query("SELECT kode FROM alternatif where id_alternatif=$kunci")[0]; ?>
-			<td class="text-center"><?=($query['kode']) ?></td>
+		<?php $query=query("SELECT nama FROM alternatif where id_alternatif=$kunci")[0]; ?>
+			<td class="text-center"><?=($query['nama']) ?></td>
 			<!-- <td class="text-center"><?=$nilai_max[$kunci]; ?></td> -->
 		<?php $pecah2=str_split($nilai_max[$kunci],8);?>
 			<td class="text-center"><?=$pecah2[0];?></td>
