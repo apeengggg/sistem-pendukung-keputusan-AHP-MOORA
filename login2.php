@@ -14,26 +14,18 @@ if(isset($_POST["login"])){
       $result=mysqli_query($koneksi,"SELECT * FROM user WHERE BINARY username ='$username'");
     // alternatif
       $result2=mysqli_query($koneksi,"SELECT * FROM alternatif WHERE BINARY username ='$username'");
-      //CEK USERNAME
-      if (mysqli_num_rows($result)>1) {
-            echo 'apeng1';
-            $_SESSION=[];
-      }elseif (mysqli_num_rows($result2)>1) {
-            echo 'apeng2';
-            $_SESSION=[];
-        }
 
       if(mysqli_num_rows($result)){
         //cek password
         $row= mysqli_fetch_assoc($result);
-        $id_user=$row['id_admin'];
-        // print_r($id_user); die;
+        $level = $row["level"];
+        if ($level === 'admin') {
+            $id_user=$row['id_admin'];
         if(password_verify($password,$row["password"])){
           $cekSts=query("SELECT status_on FROM user WHERE id_admin='$id_user'")[0];
           if ($cekSts['status_on']<1){
             //   print_r($cekSts); die;
                 status_online_admin($id_user);
-                if ($row['level']== 'admin'){
                     //set session
                     $_SESSION["login_adm"] = true;
                     $_SESSION["username"] = $row['username'];
@@ -41,13 +33,6 @@ if(isset($_POST["login"])){
                     $_SESSION['id_admin']=$row['id_admin'];
                     header("location: index.php");
                     exit; 	
-                }elseif ($row['level']== 'operator') {
-                    $_SESSION["operator"] = true;
-                    $_SESSION["username"]=$row["username"];
-                    $_SESSION["level"] = $row['level'];
-                    $_SESSION['id_admin']=$row['id_admin'];
-                    header("location: index_op.php");
-                }
           }else{
             echo " <script>
               alert('akun anda sedang online pada device lain');
@@ -56,12 +41,49 @@ if(isset($_POST["login"])){
           }
         }else{
         //   $nama=$row['id_admin'];
-          if (isset($_SESSION['id_admin'])) {
-              $_SESSION['id_admin']+=1;
+          if (isset($_SESSION['login_adm'])) {
+              $_SESSION['login_adm']+=1;
+              $error = true;
           }else{
-              $_SESSION['id_admin']=1;
+              $_SESSION['login_adm']=1;
+              $error = true;
           }
-          if ($_SESSION['id_admin']>3) {
+          if ($_SESSION['login_adm']>3) {
+            // echo $_SESSION['id_admin']; die;
+            echo " <script>
+              alert('Akun Anda Di Blokir, Silahkan hubungi Administrator123');
+             document.location.href='login2.php';
+            </script> ";
+        }
+          }
+        }else{
+            $id_user=$row['id_admin'];
+        if(password_verify($password,$row["password"])){
+          $cekSts=query("SELECT status_on FROM user WHERE id_admin='$id_user'")[0];
+          if ($cekSts['status_on']<1){
+            //   print_r($cekSts); die;
+                status_online_admin($id_user);	
+                    $_SESSION["operator"] = true;
+                    $_SESSION["username"]=$row["username"];
+                    $_SESSION["level"] = $row['level'];
+                    $_SESSION['id_admin']=$row['id_admin'];
+                    header("location: index_op.php"); 
+          }else{
+            echo " <script>
+              alert('akun anda sedang online pada device lain');
+             document.location.href='login2.php';
+            </script> ";
+          }
+        }else{
+        //   $nama=$row['id_admin'];
+          if (isset($_SESSION['operator'])) {
+              $_SESSION['operator']+=1;
+              $error = true;
+          }else{
+              $_SESSION['operator']=1;
+              $error = true;
+          }
+          if ($_SESSION['operator']>3) {
             // echo $_SESSION['id_admin']; die;
             echo " <script>
               alert('Akun Anda Di Blokir, Silahkan hubungi Administrator');
@@ -69,11 +91,50 @@ if(isset($_POST["login"])){
             </script> ";
         }
           }
+        }
+        
+      }elseif(mysqli_num_rows($result2)){
+       //cek password
+       $row2= mysqli_fetch_assoc($result2);
+       $id_user2=$row2['id_alternatif'];
+    //    print_r($id_user2); die;
+       if(password_verify($password,$row2["password"])){
+         $cekSts=query("SELECT status_on FROM alternatif WHERE id_alternatif='$id_user2'")[0];
+         if ($cekSts['status_on']<1){
+           //   print_r($cekSts); die;
+               status_online_alt($id_user2);
+               $_SESSION["login_alt"] = true;
+               $_SESSION["nama"]=$row2["nama"];
+               $_SESSION["username"]=$row2['username'];
+               $_SESSION["id_alternatif"] = $row2['id_alternatif'];
+               $_SESSION["status"] = $row2['status'];
+               header("location: datadiri_alternatif.php");
+         }else{
+           echo " <script>
+             alert('akun anda sedang online pada device lain');
+            document.location.href='login2.php';
+           </script> ";
+         }
+       }else{
+       //   $nama=$row['id_admin'];
+         if (isset($_SESSION['id_alternatif'])) {
+             $_SESSION['id_alternatif']+=1;
+             $error = true;
+         }else{
+             $_SESSION['id_alternatif']=1;
+             $error = true;
+         }
+         if ($_SESSION['id_alternatif']>3) {
+           // echo $_SESSION['id_admin']; die;
+           echo " <script>
+             alert('Akun Anda Di Blokir, Silahkan hubungi Administrator');
+            document.location.href='login2.php';
+           </script> ";
+       }
+         }
       }else{
-        echo "apengxxx"; die;
-        // $error=true;
+          $error = true;
       }
-    //   disini else if untuk alternatif
   }
 
 $query = mysqli_query($koneksi, "SELECT max(kode) as kodeterbesar FROM alternatif");

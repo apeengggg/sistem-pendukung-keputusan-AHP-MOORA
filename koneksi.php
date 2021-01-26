@@ -28,7 +28,7 @@ function status_online_admin($id){
 function status_online_alt($id){
 	global $koneksi;
 	$besok = date('Y-m-d', strtotime("+1 days", strtotime(date("Y-m-d"))));
-	$query="UPDATE alternatif SET status_on=1, exp='$besok' WHERE id_user='$id'";
+	$query="UPDATE alternatif SET status_on=1 WHERE id_alternatif='$id'";
 	mysqli_query($koneksi,$query);
 
 }
@@ -41,7 +41,7 @@ function status_offline_admin($id){
 
 function status_offline_alt($id){
 	global $koneksi;
-	$query="UPDATE alternatif SET status_on=0 WHERE id_user='$id'";
+	$query="UPDATE alternatif SET status_on=0 WHERE id_alternatif='$id'";
 	mysqli_query($koneksi,$query);
 }
 

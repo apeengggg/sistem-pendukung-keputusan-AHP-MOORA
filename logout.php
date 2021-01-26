@@ -7,9 +7,9 @@ if (isset($_SESSION["login_adm"])) {
 }elseif (isset($_SESSION["operator"])) {
     status_offline_admin($_SESSION["id_admin"]);
 }else{
-    status_offline_alt($_SESSION['id_user']);
+    // echo $_SESSION['id_alternatif']; die;
+    status_offline_alt($_SESSION['id_alternatif']);
 }
-
 
 // menghapus semua session
 session_destroy();
