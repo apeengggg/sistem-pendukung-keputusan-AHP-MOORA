@@ -14,7 +14,7 @@ include ('template/sidebar.php');
 
   $cek=query("SELECT * FROM alternatif WHERE status='1' ORDER BY id_alternatif DESC LIMIT 0,1")[0];
   $id=$cek['id_alternatif'];
-  $cekNil=query("SELECT*FROM nilai_alt where id_alternatif=$id");
+  $cekNil=query("SELECT * FROM nilai_alt INNER JOIN alternatif ON alternatif.id_alternatif=nilai_alt.id_alternatif WHERE nilai_alt.id_alternatif=$id AND alternatif.status=1 ");
   $nt=count($cekNil);
 
 $alternatif = query ("SELECT * FROM alternatif WHERE status='1' ORDER BY id_alternatif ASC");

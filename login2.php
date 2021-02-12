@@ -15,18 +15,22 @@ if(isset($_POST["login"])){
     // alternatif
       $result2=mysqli_query($koneksi,"SELECT * FROM alternatif WHERE BINARY username ='$username'");
 
+      // LOGIN ADMIN DAN OPERATOR
       if(mysqli_num_rows($result)){
-        //cek password
         $row= mysqli_fetch_assoc($result);
         $level = $row["level"];
+        // LOGIN ADMIN
         if ($level === 'admin') {
             $id_user=$row['id_admin'];
-        if(password_verify($password,$row["password"])){
+        // CEK PASSWORD
+            if(password_verify($password,$row["password"])){
           $cekSts=query("SELECT status_on FROM user WHERE id_admin='$id_user'")[0];
+          // CEK APAKAH STATUS SEDANG LOGIN DI DEVICE LAIN?
           if ($cekSts['status_on']<1){
             //   print_r($cekSts); die;
+            // JIKA TIDAK UBAH STATUS LOGIN MENJADI 1 DENGAN FUNGSI DIBAWAH
                 status_online_admin($id_user);
-                    //set session
+                    //set session ADMIN
                     $_SESSION["login_adm"] = true;
                     $_SESSION["username"] = $row['username'];
                     $_SESSION["level"] = $row['level'];
@@ -34,6 +38,7 @@ if(isset($_POST["login"])){
                     header("location: index.php");
                     exit; 	
           }else{
+            // JIKA SEDANG LOGIN ATAU STATUS == 1 MAKAN TAMPILKAN NOTIF DIBAWAH
             echo " <script>
               alert('akun anda sedang online pada device lain');
              document.location.href='login2.php';
@@ -41,21 +46,28 @@ if(isset($_POST["login"])){
           }
         }else{
         //   $nama=$row['id_admin'];
+        // JIKA PERIKSA PASSWORD GAGAL
           if (isset($_SESSION['login_adm'])) {
-              $_SESSION['login_adm']+=1;
+        // TAMBAH PERCOBAAN 1X
+            $_SESSION['login_adm']+=1;
               $error = true;
           }else{
+          // TAMBAH PERCOBAAN 1X
               $_SESSION['login_adm']=1;
               $error = true;
           }
+          // JIKA SUDAH > 3X MAKA :
           if ($_SESSION['login_adm']>3) {
             // echo $_SESSION['id_admin']; die;
+            // AKAN TAMPIL INI
             echo " <script>
               alert('Akun Anda Di Blokir, Silahkan hubungi Administrator123');
              document.location.href='login2.php';
             </script> ";
         }
           }
+        
+          // LOGIN OPERATOR
         }else{
             $id_user=$row['id_admin'];
         if(password_verify($password,$row["password"])){
@@ -93,6 +105,7 @@ if(isset($_POST["login"])){
           }
         }
         
+      // LOGIN ALTERNATIF
       }elseif(mysqli_num_rows($result2)){
        //cek password
        $row2= mysqli_fetch_assoc($result2);
