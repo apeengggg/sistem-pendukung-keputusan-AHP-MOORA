@@ -95,6 +95,87 @@ function tambahuser ($data) {
 
 }
 
+function add_periode($data){
+	global $koneksi;
+	$awal = $_POST['tahun_awal'];
+	$akhir = $_POST['tahun_akhir'];
+
+	// cek apakah masih ada yang aktif 
+	$cek = mysqli_query($koneksi, "SELECT * FROM periode WHERE status=1");
+	if (mysqli_num_rows($cek)>0) {
+		echo "<script>
+			alert('Masih Ada Periode Yang Aktif, Anda Tidak Dapat Menambahkan Periode Baru!!')
+			window.location('web_setting.php')
+			</script>";
+	}else{
+		// insert
+		$insert = mysqli_query($koneksi, "INSERT INTO periode (tahun_awal, tahun_akhir) VALUES ('$awal', '$akhir')");
+		if ($insert) {
+			echo "<script>
+			alert('Masih Ada Periode Yang Aktif, Anda Tidak Dapat Menambahkan Periode Baru!!')
+			window.location('web_setting.php')
+			</script>";
+		}else{
+			echo "<script>
+			alert('Masih Ada Periode Yang Aktif, Anda Tidak Dapat Menambahkan Periode Baru!!')
+			window.location('web_setting.php')
+			</script>";
+		}
+	}
+}
+
+function change_periode($data){
+	global $koneksi;
+	$awal = $_POST['tahun_awal'];
+	$akhir = $_POST['tahun_akhir'];
+	$status = $_POST['status'];
+	$id = $_POST['id'];
+	// cek status lama 
+	$cek_lama = mysqli_query($koneksi, "SELECT status FROM periode WHERE id_periode='$id'");
+	$data_lama = mysqli_fetch_array($cek_lama);
+	if ($data_lama['status'] === $status) {
+		
+	}else{
+
+	}
+	// cek apakah masih ada yang aktif
+if ($status==1) {
+		$cek = mysqli_query($koneksi, "SELECT * FROM periode WHERE status=1");
+	if (mysqli_num_rows($cek)==1) {
+		echo "<script>
+			alert('Masih Ada Periode Yang Aktif, Anda Tidak Dapat Mengubah Periode Ini!!')
+			window.location('web_setting.php')
+			</script>";
+	}else{
+		// insert
+		$update = mysqli_query($koneksi, "UPDATE periode SET status=$status WHERE id_periode='$id'");
+		if ($update) {
+			echo "<script>
+			alert('Data Periode Berhasil Diubah')
+			window.location('web_setting.php')
+			</script>";
+		}else{
+			echo "<script>
+			alert('Data Periode Gagal Diubah')
+			window.location('web_setting.php')
+			</script>";
+		}
+	}
+}else{
+	$update = mysqli_query($koneksi, "UPDATE periode SET status=$status");
+		if ($update) {
+			echo "<script>
+			alert('Data Periode Berhasil Diubah')
+			</script>";
+		}else{
+			echo "<script>
+			alert('Data Periode Gagal Diubah')
+			window.location('web_setting.php')
+			</script>";
+		}
+	}
+}
+
 function register ($data) {
 	global $koneksi;
 	$nik = stripcslashes($data["nik"]);
