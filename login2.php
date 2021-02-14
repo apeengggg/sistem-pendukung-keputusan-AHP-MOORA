@@ -121,6 +121,7 @@ if(isset($_POST["login"])){
                $_SESSION["username"]=$row2['username'];
                $_SESSION["id_alternatif"] = $row2['id_alternatif'];
                $_SESSION["status"] = $row2['status'];
+               $_SESSION["id_periode"] = $row2['id_periode'];
                header("location: datadiri_alternatif.php");
          }else{
            echo " <script>
@@ -153,7 +154,8 @@ if(isset($_POST["login"])){
 $query = mysqli_query($koneksi, "SELECT max(kode) as kodeterbesar FROM alternatif");
 $data = mysqli_fetch_array($query);
 $kodealt = $data['kodeterbesar'];
-$urut = (int) substr($kodealt, 2,2);
+$urut = (int) substr($kodealt, 1,2);
+// echo $urut; die;
 $urut++;
 $huruf ="A";
 $kodealt =$huruf.sprintf("%02s",$urut);

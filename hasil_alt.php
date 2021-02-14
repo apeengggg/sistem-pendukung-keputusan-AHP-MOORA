@@ -3,13 +3,14 @@ session_start();
 if(!isset($_SESSION["login_alt"])){
    header("location: index.php");
    exit;
-
 }
 
 $page="hasil";
 require 'koneksi.php';
 include('template/topbar.php');
 include('template/sidebaralt.php');
+
+// echo $_SESSION['id_periode'];
 
 ?>
 <div class="container-fluid">
@@ -24,11 +25,12 @@ include('template/sidebaralt.php');
       							<th class="text-center">Kode</th>
       							<th class="text-center">Nama</th>
       							<th class="text-center">Rank</th>
+								<th class="text-center">Keterangan</th>
                            <!-- <th class="text-center">Tanggal</th> -->
       						</tr>
       					</thead>
       						<?php
-      						$sql="SELECT alternatif.kode, alternatif.nama, hasil.nilai FROM alternatif JOIN hasil USING (id_alternatif)";
+      						$sql="SELECT alternatif.kode, alternatif.nama, hasil.nilai, hasil.ket, hasil.id_periode FROM alternatif JOIN hasil USING (id_alternatif) WHERE hasil.id_periode='$_SESSION[id_periode]'";
 							  $result = mysqli_query($koneksi, $sql);
 							  if (mysqli_num_rows($result)==0) {
 							?>
@@ -43,6 +45,7 @@ include('template/sidebaralt.php');
       							<td class="text-center"><?=$row['kode']?></td>
       							<td class="text-center"><?=$row['nama']?></td>
       							<td class="text-center"><?=$i?></td>
+								<td class="text-center"><?=$row['ket']?></td>
                           <!--  <td class="text-center"><?=$row['tanggal']?></td> -->
       						</tr>
       				<?php

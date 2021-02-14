@@ -151,8 +151,10 @@ function register ($data) {
 		//enkripsi password
 	$password = password_hash($password, PASSWORD_DEFAULT);
 		// var_dump($password); die;
-
-	mysqli_query($koneksi,"INSERT INTO alternatif (kode, nik, nama, username,password) VALUES('$kode','$nik','$nama','$username','$password')");
+	// ambil periode yang aktif
+	$id_p = mysqli_query($koneksi, "SELECT * FROM periode WHERE status=1");
+	$data = mysqli_fetch_array($id_p);
+	mysqli_query($koneksi,"INSERT INTO alternatif (id_periode, kode, nik, nama, username,password) VALUES('$data[id_periode]','$kode','$nik','$nama','$username','$password')");
 	return mysqli_affected_rows($koneksi);
 	}
 }

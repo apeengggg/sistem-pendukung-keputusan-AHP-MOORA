@@ -91,10 +91,10 @@ if (isset($_POST['ubah'])) {
 				  <div id="tabel-cari" class="card-body">
   			<div class="table-responsive">
     	<div class="col-md-auto"> 
-      <h3>Pilih Periode Penerimaan</h3>
+      <h3>Pilih Periode Penerimaan Terlebih Dahulu!</h3>
       <?php 
       // get periode on db
-      $period = mysqli_query($koneksi, "SELECT * FROM periode");
+      $period = mysqli_query($koneksi, "SELECT * FROM periode ORDER BY id_periode DESC");
       // $data = mysqli_fetch_array($period);
 
       ?>
