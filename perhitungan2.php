@@ -16,8 +16,9 @@ include('template/sidebar.php');
 require 'koneksi.php';
 // print_r($_POST);
 $batas=$_POST['jml'];
+$id_p = $_POST['periode'];
 $subkriteria = query("SELECT * FROM subkriteria");
-$alternatif = query("SELECT * FROM alternatif WHERE status='1'");
+$alternatif = query("SELECT * FROM alternatif WHERE status='1' AND id_periode='$id_p'");
 $kriteria=query("SELECT *FROM kriteria");
  ?>
 
@@ -64,12 +65,12 @@ $kriteria=query("SELECT *FROM kriteria");
 										<?php $idsubb=$key4['id_subkriteria']; 
 										
 										$nilaii=query("SELECT * FROM nilai_alt INNER JOIN alternatif ON nilai_alt.id_alternatif=alternatif.id_alternatif  
-														where nilai_alt.id_alternatif=$idal and id_kriteria=$idk and id_subkriteria=$idsubb"); 
+														where id_periode='$id_p' AND nilai_alt.id_alternatif=$idal and id_kriteria=$idk and id_subkriteria=$idsubb"); 
 										
 										if (count($nilaii)>0) :?>
 										
 										<?php $mt=query("SELECT * FROM nilai_alt INNER JOIN alternatif ON nilai_alt.id_alternatif=alternatif.id_alternatif
-														where nilai_alt.id_alternatif=$idal and id_kriteria=$idk and id_subkriteria=$idsubb")[0]; ?>
+														where id_periode='$id_p' AND nilai_alt.id_alternatif=$idal and id_kriteria=$idk and id_subkriteria=$idsubb")[0]; ?>
 										
 											<td class="text-center"><?=$mt['nilai']; ?></td>
 										
@@ -84,12 +85,12 @@ $kriteria=query("SELECT *FROM kriteria");
 										<?php else: ?>
 
 											<?php $nilaiii=query("SELECT * FROM nilai_alt INNER JOIN alternatif ON nilai_alt.id_alternatif=alternatif.id_alternatif  
-																where nilai_alt.id_alternatif=$idal and id_kriteria=$idk");
+																where id_periode='$id_p' AND nilai_alt.id_alternatif=$idal and id_kriteria=$idk");
 										
 										if (count($nilaiii)>0) :?>
 
 											<?php $qrw=query("SELECT * FROM nilai_alt INNER JOIN alternatif ON nilai_alt.id_alternatif=alternatif.id_alternatif  
-																where nilai_alt.id_alternatif=$idal and id_kriteria=$idk")[0]; ?>
+																where  id_periode='$id_p' AND nilai_alt.id_alternatif=$idal and id_kriteria=$idk")[0]; ?>
 										
 											<td class="text-center"><?=$qrw['nilai'] ?></td>
 										
@@ -111,7 +112,8 @@ $kriteria=query("SELECT *FROM kriteria");
 
 		<?php $nilai_itung=query("SELECT alternatif.*,nilai_alt.*,kriteria.*
 								  FROM nilai_alt JOIN alternatif USING(id_alternatif)
-								  JOIN kriteria USING(id_kriteria) WHERE status='1'");
+								  JOIN kriteria USING(id_kriteria) WHERE alternatif.id_periode='$id_p' AND status='1'");
+		// echo $id_p; die;
 
 // print_r($nilai_itung);die;
 $nilai_simpan=[];
@@ -193,7 +195,7 @@ foreach ($nilai_simpan as $key1 => $value) {
 										  $ceksub=query("SELECT*FROM subkriteria where id_kriteria=$idk");
 									if (count($ceksub)>0): ?>
 										<?php $ns=query("SELECT id_subkriteria FROM subkriteria where id_kriteria=$idk"); foreach ($ns as $key4) :?>
-										<?php $idsubb=$key4['id_subkriteria']; $nilaii=query("SELECT * FROM nilai_alt where id_alternatif=$idal and id_kriteria=$idk and id_subkriteria=$idsubb")[0];
+										<?php $idsubb=$key4['id_subkriteria']; $nilaii=query("SELECT * FROM nilai_alt where id_periode='$id_p' AND id_alternatif=$idal and id_kriteria=$idk and id_subkriteria=$idsubb")[0];
 										$idsubtp="S".$key4['id_subkriteria'];
 											$pecah=str_split($nilai_normal[$idal][$idsubtp],8);
 										?>
@@ -326,7 +328,7 @@ arsort($nilai_akhir);
 	<?php $i=1; ?>
 		<?php foreach ($nilai_akhir as $kunci => $val) : ?>
 	<tr>
-		<?php $query=query("SELECT nama FROM alternatif where id_alternatif=$kunci")[0]; ?>
+		<?php $query=query("SELECT nama FROM alternatif where id_alternatif=$kunci AND id_periode='$id_p'")[0]; ?>
 			<td class="text-center"><?=($query['nama']) ?></td>
 			<!-- <td class="text-center"><?=$nilai_max[$kunci]; ?></td> -->
 		<?php $pecah2=str_split($nilai_max[$kunci],8);?>
@@ -348,11 +350,12 @@ arsort($nilai_akhir);
 </table>
 </div>
 <form method="post">
-	<input type="hidden" name="batas" value="<?=$batas; ?>">
+	<input type="text" name="batas" value="<?=$batas; ?>">
+	<input type="text" name="periode" value="<?=$id_p; ?>">
 	<button type="submit" name="simpan" class="btn btn-info" onclick="return confirm ('yakin simpan hasil akhir ?');">Simpan Hasil Akhir</button>
 </form>
 <?php if (isset($_POST['simpan'])){
-	nambah($nilai_akhir,$_POST['batas']);
+	nambah($nilai_akhir,$_POST['batas'], $_POST['periode']);
 	echo "     
       <script>
         alert('data berhasil ditambahkan');

@@ -6,6 +6,8 @@
 
  }
 
+ date_default_timezone_set('Asia/Jakarta');
+
 function query ($query) {
  		global $koneksi;
  		$result = mysqli_query($koneksi, $query);
@@ -400,17 +402,26 @@ function ubahsubkriteria ($data){
 			return mysqli_affected_rows($koneksi);
 }
 
-function nambah($nama,$batas) {
+function nambah($nama,$batas,$id_p) {
 	global $koneksi;
 
 	$tanggal = date("Y-m-d h-i-s");
 	$i=1;
 	echo "nilai i ".$i." batas ".$batas."<br>";
 	foreach ($nama as $kunci => $val) {
+		// cek sudah ada alt tersebut belum pada hasil
+		// jika ada hapus, dan tambahkan ulang
+		$query_cek = mysqli_query($koneksi, "SELECT * FROM hasil WHERE id_alternatif='$kunci' AND id_periode='$id_p'");
+		// $hasil = mysqli_num_rows($query_cek);
+		// echo 'hasilnya adalah'.$hasil; die;
+		if (mysqli_num_rows($query_cek)>0) {
+			// delete dulu
+			$delete_alt = mysqli_query($koneksi, "DELETE FROM hasil WHERE id_alternatif='$kunci' AND id_periode='$id_p'");
+		}
 			if ($i<=$batas) {
-				$insert=mysqli_query($koneksi, "INSERT INTO hasil (id_alternatif,nilai,tanggal,ket) VALUES ('$kunci','$val','$tanggal','lulus')");
+				$insert=mysqli_query($koneksi, "INSERT INTO hasil (id_alternatif, id_periode,nilai,tanggal,ket) VALUES ('$kunci','$id_p','$val','$tanggal','lulus')");
 			}else{
-				$insert=mysqli_query($koneksi, "INSERT INTO hasil (id_alternatif,nilai,tanggal,ket) VALUES ('$kunci','$val','$tanggal','tidak lulus')");
+				$insert=mysqli_query($koneksi, "INSERT INTO hasil (id_alternatif, id_periode,nilai,tanggal,ket) VALUES ('$kunci','$id_p','$val','$tanggal','tidak lulus')");
 			}	
 		$i++;
 	}
