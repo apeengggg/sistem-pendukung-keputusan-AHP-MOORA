@@ -46,7 +46,7 @@ include('template/sidebar.php');
 						</table>
 					</div>
 				</div>
-				<a class="btn btn-info float-right" href="cetak_laporan_semua.php" target="_blank"><i class="fas fa-print"></i> Cetak Semua</a>
+				<!-- <a class="btn btn-info float-right" href="cetak_laporan_semua.php" target="_blank"><i class="fas fa-print"></i> Cetak Semua</a> -->
 			</div>
 		</div>
 	</div>

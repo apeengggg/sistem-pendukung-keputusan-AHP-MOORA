@@ -38,13 +38,12 @@ if (isset($_POST["login"])) {
     }elseif (mysqli_num_rows($result2)===1) {
       $row2 = mysqli_fetch_assoc($result2);
         if (password_verify($password, $row2["password"])){
-      
             $_SESSION["login_alt"] = true;
             $_SESSION["nama"]=$row2["nama"];
             $_SESSION["username"]=$row2['username'];
             $_SESSION["id_alternatif"] = $row2['id_alternatif'];
             $_SESSION["status"] = $row2['status'];
-            
+            $_SESSION["id_periode"] = $row2['id_periode'];
             header("location: datadiri_alternatif.php");
       }$error = true;
     }

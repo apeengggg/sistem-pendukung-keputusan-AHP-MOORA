@@ -123,7 +123,11 @@ if (isset($_POST['ubah'])) {
 			<td class="text-center"><a href="assets1/berkas/<?= $row["Berkas"]; ?>" target="_blank">Lihat Berkas</a></td>
 			<td class="text-center">
           <?php if ($nt>0):?>
+<<<<<<< HEAD
         <a href="nilai_alternatif.php?id_alternatif=<?=$row['id_alternatif'] ?>">Lihat Nilai</a>
+=======
+        <a href="nilai_alternatif.php?id_alternatif=<?=$row['id_alternatif'] ?>" target="_blank">Lihat Nilai</a>
+>>>>>>> cookie
 			<?php else: ?>
     <a href="data_alternatif.php" onclick="return confirm ('Alternatif belum diinput nilai');" >Lihat Nilai</a>
       <?php endif; ?>
@@ -191,6 +195,10 @@ if (isset($_POST['ubah'])) {
       <div class="modal-body" >
         <form method="POST" action="perhitungan2.php">
           <label>Jumlah Alternatif </label>
+<<<<<<< HEAD
+=======
+          <input type="text" name="periode" value="<?=$id_p?>">
+>>>>>>> cookie
           <input class="form-control mt-1" type="number" name="jml">
           
         

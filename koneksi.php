@@ -6,6 +6,8 @@
 
  }
 
+ date_default_timezone_set('Asia/Jakarta');
+
 function query ($query) {
  		global $koneksi;
  		$result = mysqli_query($koneksi, $query);
@@ -16,6 +18,27 @@ function query ($query) {
  		}
 return $rows;
 }
+// encryption decryption function for cookie
+function encrypt_decrypt($action, $string) {
+    $output = false;
+    $encrypt_method = "AES-256-CBC";
+    $secret_key = 'key_one';
+    $secret_iv = 'key_two';
+    // hash
+    $key = hash('sha256', $secret_key);
+    // iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
+    $iv = substr(hash('sha256', $secret_iv), 0, 16);
+    if ( $action == 'encrypt' ) {
+        $output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
+        $output = base64_encode($output);
+    } else if( $action == 'decrypt' ) {
+        $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+    }
+    return $output;
+}
+// encryption decryption function for cookie
+
+
 
 /***********************************************FUNGSI BARU*********************************************/
 function status_online_admin($id){
@@ -93,6 +116,87 @@ function tambahuser ($data) {
 
 }
 
+function add_periode($data){
+	global $koneksi;
+	$awal = $_POST['tahun_awal'];
+	$akhir = $_POST['tahun_akhir'];
+
+	// cek apakah masih ada yang aktif 
+	$cek = mysqli_query($koneksi, "SELECT * FROM periode WHERE status=1");
+	if (mysqli_num_rows($cek)>0) {
+		echo "<script>
+			alert('Masih Ada Periode Yang Aktif, Anda Tidak Dapat Menambahkan Periode Baru!!')
+			window.location('web_setting.php')
+			</script>";
+	}else{
+		// insert
+		$insert = mysqli_query($koneksi, "INSERT INTO periode (tahun_awal, tahun_akhir) VALUES ('$awal', '$akhir')");
+		if ($insert) {
+			echo "<script>
+			alert('Masih Ada Periode Yang Aktif, Anda Tidak Dapat Menambahkan Periode Baru!!')
+			window.location('web_setting.php')
+			</script>";
+		}else{
+			echo "<script>
+			alert('Masih Ada Periode Yang Aktif, Anda Tidak Dapat Menambahkan Periode Baru!!')
+			window.location('web_setting.php')
+			</script>";
+		}
+	}
+}
+
+function change_periode($data){
+	global $koneksi;
+	$awal = $_POST['tahun_awal'];
+	$akhir = $_POST['tahun_akhir'];
+	$status = $_POST['status'];
+	$id = $_POST['id'];
+	// cek status lama 
+	$cek_lama = mysqli_query($koneksi, "SELECT status FROM periode WHERE id_periode='$id'");
+	$data_lama = mysqli_fetch_array($cek_lama);
+	if ($data_lama['status'] === $status) {
+		
+	}else{
+
+	}
+	// cek apakah masih ada yang aktif
+if ($status==1) {
+		$cek = mysqli_query($koneksi, "SELECT * FROM periode WHERE status=1");
+	if (mysqli_num_rows($cek)==1) {
+		echo "<script>
+			alert('Masih Ada Periode Yang Aktif, Anda Tidak Dapat Mengubah Periode Ini!!')
+			window.location('web_setting.php')
+			</script>";
+	}else{
+		// insert
+		$update = mysqli_query($koneksi, "UPDATE periode SET status=$status WHERE id_periode='$id'");
+		if ($update) {
+			echo "<script>
+			alert('Data Periode Berhasil Diubah')
+			window.location('web_setting.php')
+			</script>";
+		}else{
+			echo "<script>
+			alert('Data Periode Gagal Diubah')
+			window.location('web_setting.php')
+			</script>";
+		}
+	}
+}else{
+	$update = mysqli_query($koneksi, "UPDATE periode SET status=$status");
+		if ($update) {
+			echo "<script>
+			alert('Data Periode Berhasil Diubah')
+			</script>";
+		}else{
+			echo "<script>
+			alert('Data Periode Gagal Diubah')
+			window.location('web_setting.php')
+			</script>";
+		}
+	}
+}
+
 function register ($data) {
 	global $koneksi;
 	$nik = stripcslashes($data["nik"]);
@@ -149,8 +253,10 @@ function register ($data) {
 		//enkripsi password
 	$password = password_hash($password, PASSWORD_DEFAULT);
 		// var_dump($password); die;
-
-	mysqli_query($koneksi,"INSERT INTO alternatif (kode, nik, nama, username,password) VALUES('$kode','$nik','$nama','$username','$password')");
+	// ambil periode yang aktif
+	$id_p = mysqli_query($koneksi, "SELECT * FROM periode WHERE status=1");
+	$data = mysqli_fetch_array($id_p);
+	mysqli_query($koneksi,"INSERT INTO alternatif (id_periode, kode, nik, nama, username,password) VALUES('$data[id_periode]','$kode','$nik','$nama','$username','$password')");
 	return mysqli_affected_rows($koneksi);
 	}
 }
@@ -400,17 +506,26 @@ function ubahsubkriteria ($data){
 			return mysqli_affected_rows($koneksi);
 }
 
-function nambah($nama,$batas) {
+function nambah($nama,$batas,$id_p) {
 	global $koneksi;
 
 	$tanggal = date("Y-m-d h-i-s");
 	$i=1;
 	echo "nilai i ".$i." batas ".$batas."<br>";
 	foreach ($nama as $kunci => $val) {
+		// cek sudah ada alt tersebut belum pada hasil
+		// jika ada hapus, dan tambahkan ulang
+		$query_cek = mysqli_query($koneksi, "SELECT * FROM hasil WHERE id_alternatif='$kunci' AND id_periode='$id_p'");
+		// $hasil = mysqli_num_rows($query_cek);
+		// echo 'hasilnya adalah'.$hasil; die;
+		if (mysqli_num_rows($query_cek)>0) {
+			// delete dulu
+			$delete_alt = mysqli_query($koneksi, "DELETE FROM hasil WHERE id_alternatif='$kunci' AND id_periode='$id_p'");
+		}
 			if ($i<=$batas) {
-				$insert=mysqli_query($koneksi, "INSERT INTO hasil (id_alternatif,nilai,tanggal,ket) VALUES ('$kunci','$val','$tanggal','lulus')");
+				$insert=mysqli_query($koneksi, "INSERT INTO hasil (id_alternatif, id_periode,nilai,tanggal,ket) VALUES ('$kunci','$id_p','$val','$tanggal','lulus')");
 			}else{
-				$insert=mysqli_query($koneksi, "INSERT INTO hasil (id_alternatif,nilai,tanggal,ket) VALUES ('$kunci','$val','$tanggal','tidak lulus')");
+				$insert=mysqli_query($koneksi, "INSERT INTO hasil (id_alternatif, id_periode,nilai,tanggal,ket) VALUES ('$kunci','$id_p','$val','$tanggal','tidak lulus')");
 			}	
 		$i++;
 	}

@@ -7,6 +7,13 @@ if (!isset($_SESSION['operator']) AND !isset($_SESSION["login_adm"])) {
 }
 
 
+if (isset($_POST['periode'])) {
+  $id = $_POST['per'];
+  // // $a = $_POST['a'];
+  // var_dump($_POST); die;
+  header("location: alt_detail.php?id=$id");
+}
+
 $page="alternatif";
 require 'koneksi.php';
 include ('template/topbar.php');
@@ -72,99 +79,50 @@ if (isset($_POST['ubah'])) {
   			<h1 class="m-0 font-weight-bold text-dark">Data Alternatif</h1> <br>
     			<div class="card shadow mb-4">
       			<div class="card-body"> 
-  						<form action="" method="post">
+  						<!-- <form action="" method="post">
   							<div class="input-group col-6 mb-3">
     							<input class="form-control" type="text" name="keyword" autofocus placeholder="masukan keyword" autocomplete="off" id="keyword">
     								<button class="btn btn-outline-secondary" type="submit" name="cari" id="tombol-cari"><i class="fas fa-search"></i> SEARCH</button>
     									<button class="btn btn-outline-info" type="submit"  value="Refresh Page" onClick="document.location.reload(true)"><i class="fas fa-sync-alt"></i> REFRESH</button>
   									</div>
-  								</form>
+  								</form> -->
     				  <!-- <h1>Selamat Datang, <?php echo $nama; ?></h1> -->
 				  <!-- <a href="tambah_alternatif.php" class="btn btn-secondary">Tambah Data Alternatif</a> -->
 				  <div id="tabel-cari" class="card-body">
   			<div class="table-responsive">
     	<div class="col-md-auto"> 
-    <table class="table table-striped">
-  		<tr>
-  			<th class="text-center">No</th>
-        <th class="text-center">Kode</th>
-  			<th class="text-center">Nama</th>
-  			<th class="text-center">Alamat</th>
-  			<th class="text-center">Tanggal Lahir</th>
-  			<th class="text-center">Pend. Terakhir</th>
-        <th class="text-center">Email</th>
-        <th class="text-center">No. HP</th>
-  		 	<th class="text-center">Berkas</th>
-  		 	<th class="text-center">Nilai</th>
-  		 	<th class="text-center" colspan="2">Aksi</th>
-  		</tr>
-			<?php $i = 1; ?>
-			<?php foreach ($alternatif as $row) : 
-				$tgl = $row["tgl_lahir"];
-  				$t = date('d-M-Y', strtotime($tgl));
-  	   ?> 
-		<tr>
-			<td class="text-center"><?= $i; ?></td>
-      <td class="text-center"><?= $row["kode"]; ?></td>
-			<td class="text-center"><?= $row["nama"]; ?></td>
-			<td class="text-center"><?= $row["alamat"]; ?></td>
-			<td class="text-center"><?= $t; ?></td>
-			<td class="text-center"><?= $row["pendidikan_terakhir"]; ?></td>
-      <td class="text-center"><?= $row["email"]; ?></td>
-      <td class="text-center"><?= $row["no_HP"]; ?></td>
-			<td class="text-center"><a href="assets1/berkas/<?= $row["Berkas"]; ?>" target="_blank">Lihat Berkas</a></td>
-			<td class="text-center">
-          <?php if ($nt>0):?>
-        <a href="nilai_alternatif.php?id_alternatif=<?=$row['id_alternatif'] ?>">Lihat Nilai</a>
-			<?php else: ?>
-    <a href="data_alternatif.php" onclick="return confirm ('Alternatif belum diinput nilai');" >Lihat Nilai</a>
-      <?php endif; ?>
-</td>
-      <td class="text-center">
-        <?php if ($_SESSION['level']=='operator') : ?>
-          <button type="submit" id="verifikasi" class="btn-xs btn-dark" data-toggle="modal"
-                    data-target="#modal-xl" 
-                    data-id="<?= $row['id_alternatif']; ?>">
-                    <i class="fas fa-info-circle"></i>
-                </button>
-        <form method="POST">
-          <input type="hidden" name="id_alternatif" value="<?=$row['id_alternatif'];?>">
-				  <!-- <a class="btn btn-secondary" href="hapus_alternatif.php?id_alternatif=<?= $row["id_alternatif"]; ?>" onclick="return confirm('yakin?');"><i class="far fa-trash-alt"></i> hapus</a> -->
-          <button type="submit" name="hapus" class="btn btn-secondary" onclick="return confirm('yakin hapus <?=$row['nama']?>?');"><i class="far fa-trash-alt"></i></button>
-            <?php $id=$row['id_alternatif']; $ceknilai=query("SELECT*FROM nilai_alt where id_alternatif=$id"); if (count($ceknilai)>0) :?>
-              <a href="nilai_alt.php?id_alternatif=<?= $row["id_alternatif"]; ?>" type="button" class="btn btn-info "><i class="fas fa-plus-square"></i> Edit Nilai</a>
-        
-                <?php else: ?>
-                    <a href="tambah_nilai.php?id_alternatif=<?= $row["id_alternatif"]; ?>" type="button" class="btn btn-info "><i class="fas fa-plus-square ml"></i> Tambah Nilai</a>
-                  <?php endif; ?>
-                </form>
-                <?php else: ?>
-             <form method="POST">
-                <input type="hidden" name="id_alternatif" value="<?=$row['id_alternatif'];?>">
-                  <button type="submit" name="hapus" class="btn btn-secondary" onclick="return confirm('yakin hapus <?=$row['nama']?>?');"><i class="far fa-trash-alt"></i></button>
-                </form>
-                <?php endif; ?>
-			       </td>
-		        </tr>
-	         <?php $i++; ?>
-	       <?php endforeach; ?>
-		    </table>
+      <h3>Pilih Periode Penerimaan Terlebih Dahulu!</h3>
+      <?php 
+      // get periode on db
+      $period = mysqli_query($koneksi, "SELECT * FROM periode ORDER BY id_periode DESC");
+      // $data = mysqli_fetch_array($period);
+
+      ?>
+      <form action="" method="post">
+      <!-- <input type="text" name="a" id="a"> -->
+        <select class="form-control" name="per" id="per" required>
+        <option value="">Pilih Periode...</option>
+        <!-- <option value="1">Pilih Periode... 1</option> -->
+        <?php
+          while ($data=mysqli_fetch_array($period)) {
+            $tgl = date('d-M-Y', strtotime($data['tanggal']));
+            if ($data['status']==1) {
+              $status = 'Aktif';
+            }else{
+              $status = 'Tidak Aktif';
+            }
+          ?>
+          <option value="<?=$data['id_periode']?>">Dibuat : <?= $tgl?> [Tahun Ajaran : <?=$data['tahun_awal']?>/<?=$data['tahun_akhir']?>] [Status : <?=$status?>]</option>
+          <?php
+          }
+        ?>
+        </select>
+        <br>
+        <button type="submit" id="periode" name="periode" class="btn btn-success">Lihat Alternatif</button>
+        </form>
 			</div>
 				</div>
 					</div>
-
-          <?php if ($_SESSION['level']==='operator') : ?>
-            <?php if ($nt>0):?>
-                <button class="btn btn-info float-right" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-angle-double-right"></i> Proses Hitung </button>
-    </a>
-            <?php else: ?>
-
-                <button class="btn btn-info float-right" onclick="return confirm ('Alternatif belum diinput nilai');" ><i class="fas fa-angle-double-right"></i> Proses Hitung</button>
-    
-    </a>
-      <?php endif; ?>
-      <?php endif; ?>
-
 						</div>
 					</div>
         </div>
@@ -196,7 +154,7 @@ if (isset($_POST['ubah'])) {
   </div>
 </div>
 
-!-- Modal -->
+<!-- !-- Modal -->
 <div class="modal fade" id="modal-xl" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
