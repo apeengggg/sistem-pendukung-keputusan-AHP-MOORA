@@ -16,7 +16,8 @@ if (isset($_SESSION["login_adm"])) {
     // JIKA ADA JALANKAN FUNGSI INI UNTUK MENGUBAH STATUS ON JADI == 0
     status_offline_alt($_SESSION['id_alternatif']);
 }
-
+setcookie('level','',time()-1);
+setcookie('id','',time()-1);
 // menghapus semua session
 session_destroy();
 // mengalihkan halaman sambil mengirim pesan logout
