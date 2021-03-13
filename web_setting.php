@@ -130,7 +130,7 @@ if (isset($_POST['edit'])) {
                         $tgl= date('d-M-Y', strtotime($ambil));
                         ?>
                 <tr>
-                    <td class="text-center"><?= $i++; ?></td>
+                    <td class="text-center"><?= $i; ?></td>
                     <td class="text-center"><?= $tgl. '//' .$jam; ?></td>
                     <td class="text-center"><?php echo $row['tahun_awal'].'/'.$row['tahun_akhir']; ?></td>
                     <td class="text-center"><?= $status; ?></td>
