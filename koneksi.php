@@ -125,7 +125,7 @@ function add_periode($data){
 	$cek = mysqli_query($koneksi, "SELECT * FROM periode WHERE status=1");
 	if (mysqli_num_rows($cek)>0) {
 		echo "<script>
-			alert('Masih Ada Periode Yang Aktif, Anda Tidak Dapat Menambahkan Periode Baru!!')
+			alert('Masih Ada Periode Yang Aktif123, Anda Tidak Dapat Menambahkan Periode Baru!!')
 			window.location('web_setting.php')
 			</script>";
 	}else{
@@ -133,12 +133,12 @@ function add_periode($data){
 		$insert = mysqli_query($koneksi, "INSERT INTO periode (tahun_awal, tahun_akhir) VALUES ('$awal', '$akhir')");
 		if ($insert) {
 			echo "<script>
-			alert('Masih Ada Periode Yang Aktif, Anda Tidak Dapat Menambahkan Periode Baru!!')
+			alert('Periode Berhasil Ditambah')
 			window.location('web_setting.php')
 			</script>";
 		}else{
 			echo "<script>
-			alert('Masih Ada Periode Yang Aktif, Anda Tidak Dapat Menambahkan Periode Baru!!')
+			alert('Periode Gagal Ditambah')
 			window.location('web_setting.php')
 			</script>";
 		}
